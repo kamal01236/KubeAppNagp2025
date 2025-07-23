@@ -16,12 +16,29 @@ spec:
     spec:
       containers:
       - name: nagp-service-api
-        image: your-dockerhub-username/nagp-service-api:latest
+        image: kamal01236/nagp-service-api:latest
         ports:
         - containerPort: 80
         env:
-        - name: ConnectionStrings__DefaultConnection
+        - name: SQL_SERVER
           valueFrom:
             configMapKeyRef:
-              name: nagp-service-api-config
-              key: DefaultConnection
+              name: sqlserver-config
+              key: SQL_SERVER
+        - name: SQL_DB
+          valueFrom:
+            configMapKeyRef:
+              name: sqlserver-config
+              key: SQL_DB
+        - name: SQL_USER
+          valueFrom:
+            configMapKeyRef:
+              name: sqlserver-config
+              key: SQL_USER
+        - name: SQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: sqlserver-secret
+              key: SA_PASSWORD
+        - name: ConnectionStrings__DefaultConnection
+          value: "Server=$(SQL_SERVER);Database=$(SQL_DB);User Id=$(SQL_USER);Password=$(SQL_PASSWORD);"
