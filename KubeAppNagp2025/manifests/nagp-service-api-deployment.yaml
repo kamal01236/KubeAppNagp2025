@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nagp-service-api
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: nagp-service-api
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: nagp-service-api
+    spec:
+      containers:
+      - name: nagp-service-api
+        image: your-dockerhub-username/nagp-service-api:latest
+        ports:
+        - containerPort: 80
+        env:
+        - name: ConnectionStrings__DefaultConnection
+          valueFrom:
+            configMapKeyRef:
+              name: nagp-service-api-config
+              key: DefaultConnection

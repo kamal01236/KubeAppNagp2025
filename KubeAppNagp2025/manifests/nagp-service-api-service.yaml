@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nagp-service-api
+spec:
+  selector:
+    app: nagp-service-api
+  ports:
+    - port: 80
+      targetPort: 80
+      name: http
+    - port: 8080
+      targetPort: 80
+      name: admin
+    - port: 9000
+      targetPort: 80
+      name: health
+    - port: 10000
+      targetPort: 80
+      name: metrics
+  type: ClusterIP

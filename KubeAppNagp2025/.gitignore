@@ -1,0 +1,31 @@
+src/NagpServiceApi/obj
+# .NET build artifacts
+bin/
+obj/
+*.user
+*.suo
+
+# Visual Studio/VS Code settings
+.vscode/
+*.vs/
+*.userprefs
+
+# Docker artifacts
+**/.dockerignore
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# User secrets (if used)
+secrets.json
+
+# Publish output
+publish/
+out/
+
+# Kubernetes local files (if any)
+*.kubeconfig
