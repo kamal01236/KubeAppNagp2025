@@ -13,12 +13,13 @@ This repository contains a sample .NET 8 Web API (Service Tier) and SQL Server (
 ### 1. Build and Push Docker Image
 ```bash
 cd src/NagpServiceApi
-docker build -t your-dockerhub-username/nagp-service-api .
-docker push your-dockerhub-username/nagp-service-api
+docker build -t kamal01236/nagp-service-api .
+docker push kamal01236/nagp-service-api
 ```
 
 ### 2. Deploy to Kubernetes
 ```bash
+kubectl apply -f manifests/sqlserver-configmap.yaml
 kubectl apply -f manifests/sqlserver-secret.yaml
 kubectl apply -f manifests/sqlserver-pvc.yaml
 kubectl apply -f manifests/sqlserver-deployment.yaml
@@ -30,7 +31,7 @@ kubectl apply -f manifests/nagp-service-api-service.yaml
 kubectl apply -f manifests/nagp-service-api-ingress.yaml
 ```
 
-> Ensure an Ingress controller is running and add `127.0.0.1 service-api.local` to your `/etc/hosts` file.
+> Ensure an Ingress controller is running and add `127.0.0.1 nagp-service-api.local` to your `/etc/hosts` file.
 
 ### 3. Migrate Database (Run Once)
 First, get the name of any Service API pod:
@@ -45,7 +46,7 @@ Replace `<nagp-service-api-pod-name>` with the actual pod name from the previous
 
 ### 4. Test API
 ```bash
-curl http://service-api.local/api/users/getall
+curl http://nagp-service-api.local/api/users/getall
 ```
 
 ## ✅ Features
