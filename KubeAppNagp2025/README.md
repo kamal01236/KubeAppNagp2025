@@ -20,9 +20,7 @@ docker push kamal01236/service-api
 ### 2. Deploy to Kubernetes
 ```bash
 cd ../../manifests
-kubectl apply -f ef-migrate-job.yaml
-kubectl logs job/ef-migrator
-kubectl delete job ef-migrator
+
 
 kubectl apply -f sqlserver-configmap.yaml
 kubectl apply -f sqlserver-secret.yaml
@@ -36,20 +34,17 @@ kubectl apply -f service-api-service.yaml
 kubectl apply -f service-api-ingress.yaml
 
 kubectl get pods
+kubectl get pods --all-namespaces
 ```
 
 > Ensure an Ingress controller is running and add `127.0.0.1 service-api.local` to your `/etc/hosts` file.
 
-### 3. Migrate Database (Run Once)
-First, get the name of any Service API pod:
+### 3. Migrate Database (Run Once) Apply the Job and Run:
 ```bash
-kubectl get pods -l app=service-api
+kubectl apply -f ef-migrate-job.yaml
+kubectl logs job/ef-migrator #You can watch logs:
+kubectl delete job ef-migrator #After completion, you may clean up:
 ```
-Then, run the migration command on any one of the listed pods:
-```bash
-kubectl exec -it <service-api-pod-name> -- dotnet ef database update
-```
-Replace `<service-api-pod-name>` with the actual pod name from the previous command.
 
 ### 4. Test API
 ```bash

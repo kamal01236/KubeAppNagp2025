@@ -2,6 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: service-api
+  labels:
+    app: service-api
 spec:
   replicas: 4
   selector:
@@ -20,6 +22,7 @@ spec:
         ports:
         - containerPort: 80
         env:
+        # These environment variables are sourced from ConfigMap and Secret
         - name: SQL_SERVER
           valueFrom:
             configMapKeyRef:
@@ -40,7 +43,9 @@ spec:
             secretKeyRef:
               name: sqlserver-secret
               key: SA_PASSWORD
-        # This environment variable will override the DefaultConnection in appsettings.json
-        # due to ASP.NET Core's configuration hierarchy.
-        - name: ConnectionStrings__DefaultConnection
-          value: "Server=$(SQL_SERVER);Database=$(SQL_DB);User Id=$(SQL_USER);Password=$(SQL_PASSWORD);TrustServerCertificate=True;"
+        # Use 'command' and 'args' to construct the ConnectionStrings__DefaultConnection
+        # This allows shell-level variable expansion (e.g., ${SQL_PASSWORD})
+        command: ["/bin/sh", "-c"]
+        args:
+          - export ConnectionStrings__DefaultConnection="Server=${SQL_SERVER};Database=${SQL_DB};User Id=${SQL_USER};Password=${SQL_PASSWORD};TrustServerCertificate=True;";
+            exec dotnet service-api.dll # IMPORTANT: Replace 'service-api.dll' with your actual application's entry point (e.g., your-app-name.dll)
