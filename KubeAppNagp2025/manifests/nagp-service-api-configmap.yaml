@@ -3,4 +3,7 @@ kind: ConfigMap
 metadata:
   name: nagp-service-api-config
 data:
-  DefaultConnection: "Server=sqlserver;Database=SampleDb;User Id=sa;Password=YourStrong@Passw0rd;"
+  SQL_SERVER: "sqlserver"
+  SQL_DB: "SampleDb"
+  SQL_USER: "sa"
+  # SQL_PASSWORD is now stored in a Kubernetes Secret for security
