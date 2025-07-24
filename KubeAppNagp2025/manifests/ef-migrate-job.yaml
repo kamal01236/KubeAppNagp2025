@@ -1,0 +1,42 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: ef-migrator
+spec:
+  template:
+    spec:
+      containers:
+      - name: ef-migrator
+        image: mcr.microsoft.com/dotnet/sdk:8.0
+        command: ["/bin/sh", "-c"]
+        args:
+          - |
+            git clone https://github.com/kamal01236/KubeAppNagp2025.git &&
+            cd KubeAppNagp2025/KubeAppNagp2025/src/ServiceApi &&
+            dotnet restore &&
+            dotnet ef database update
+        env:
+        - name: SQL_SERVER
+          valueFrom:
+            configMapKeyRef:
+              name: sqlserver-config
+              key: SQL_SERVER
+        - name: SQL_DB
+          valueFrom:
+            configMapKeyRef:
+              name: sqlserver-config
+              key: SQL_DB
+        - name: SQL_USER
+          valueFrom:
+            configMapKeyRef:
+              name: sqlserver-config
+              key: SQL_USER
+        - name: SQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: sqlserver-secret
+              key: SA_PASSWORD
+        - name: ConnectionStrings__DefaultConnection
+          value: "Server=$(SQL_SERVER);Database=$(SQL_DB);User Id=$(SQL_USER);Password=$(SQL_PASSWORD);TrustServerCertificate=True;"
+      restartPolicy: Never
+  backoffLimit: 1
