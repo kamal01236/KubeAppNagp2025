@@ -48,4 +48,4 @@ spec:
         command: ["/bin/sh", "-c"]
         args:
           - export ConnectionStrings__DefaultConnection="Server=${SQL_SERVER};Database=${SQL_DB};User Id=${SQL_USER};Password=${SQL_PASSWORD};TrustServerCertificate=True;";
-            exec dotnet service-api.dll # IMPORTANT: Replace 'service-api.dll' with your actual application's entry point (e.g., your-app-name.dll)
+            exec dotnet ServiceApi.dll # IMPORTANT: Replace 'ServiceApi.dll' with your actual application's entry point (e.g., your-app-name.dll)
