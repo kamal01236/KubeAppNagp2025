@@ -14,12 +14,13 @@ namespace NagpServiceApi.Controllers
             _context = context;
         }
 
-        [HttpGet]
+        [HttpGet("getall")]
         public IActionResult GetAll()
         {
             var users = _context.Users.ToList();
             return Ok(users);
         }
+        
         [HttpPost("add")]
         public IActionResult Add(User user)
         {
