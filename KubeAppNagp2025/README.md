@@ -19,14 +19,14 @@ docker push kamal01236/service-api
 
 ### 2. Deploy to Kubernetes
 ```bash
+cd ../../manifests
 kubectl apply -f sqlserver-configmap.yaml
 kubectl apply -f sqlserver-secret.yaml
 kubectl apply -f sqlserver-pvc.yaml
 kubectl apply -f sqlserver-deployment.yaml
 kubectl apply -f sqlserver-service.yaml
 
-kubectl apply -f service-api-configmap.yaml
-kubectl apply -f service-api-appsettings-config.yaml
+kubectl apply -f service-api-appsettings-configmap.yaml
 kubectl apply -f service-api-deployment.yaml
 kubectl apply -f service-api-service.yaml
 kubectl apply -f service-api-ingress.yaml
