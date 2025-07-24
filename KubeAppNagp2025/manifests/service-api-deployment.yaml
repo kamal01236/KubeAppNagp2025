@@ -44,12 +44,3 @@ spec:
         # due to ASP.NET Core's configuration hierarchy.
         - name: ConnectionStrings__DefaultConnection
           value: "Server=$(SQL_SERVER);Database=$(SQL_DB);User Id=$(SQL_USER);Password=$(SQL_PASSWORD);TrustServerCertificate=True;"
-        volumeMounts:
-        - name: appsettings-volume
-          mountPath: "appsettings.json" # Mount point inside the container
-          subPath: appsettings.json         # Specifies which key from the ConfigMap to mount as a file
-          readOnly: true                    # Recommended for configuration files
-      volumes:
-      - name: appsettings-volume
-        configMap:
-          name: service-api-appsettings-config # Reference the ConfigMap created above
