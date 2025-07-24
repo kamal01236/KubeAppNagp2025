@@ -1,4 +1,4 @@
-namespace NagpServiceApi
+namespace ServiceApi
 {
     public class Program
     {

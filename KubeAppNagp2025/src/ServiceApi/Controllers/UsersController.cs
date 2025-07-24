@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using NagpServiceApi.Data;
-using NagpServiceApi.Models;
-namespace NagpServiceApi.Controllers
+using ServiceApi.Data;
+using ServiceApi.Models;
+namespace ServiceApi.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]

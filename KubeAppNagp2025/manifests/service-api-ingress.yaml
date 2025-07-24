@@ -1,18 +1,18 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: nagp-service-api-ingress
+  name: service-api-ingress
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
-  - host: nagp-service-api.local
+  - host: service-api.local
     http:
       paths:
       - path: /
         pathType: Prefix
         backend:
           service:
-            name: nagp-service-api
+            name: service-api
             port:
               number: 80

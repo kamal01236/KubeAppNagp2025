@@ -1,4 +1,4 @@
-namespace NagpServiceApi.Models
+namespace ServiceApi.Models
 {
     public class User
     {

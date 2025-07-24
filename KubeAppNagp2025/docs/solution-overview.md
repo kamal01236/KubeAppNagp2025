@@ -38,11 +38,11 @@
 
 ## 📁 Key Kubernetes Manifests
 
-- `nagp-service-api-deployment.yaml`: Deploys 4 replicas of the API with rolling updates.
-- `nagp-service-api-configmap.yaml`: Provides non-sensitive configuration (connection string).
-- `nagp-service-api-secret.yaml`: (Optional) Store sensitive DB credentials.
-- `nagp-service-api-service.yaml`: ClusterIP service for API.
-- `nagp-service-api-ingress.yaml`: Ingress resource for external access.
+- `service-api-deployment.yaml`: Deploys 4 replicas of the API with rolling updates.
+- `service-api-configmap.yaml`: Provides non-sensitive configuration (connection string).
+- `service-api-secret.yaml`: (Optional) Store sensitive DB credentials.
+- `service-api-service.yaml`: ClusterIP service for API.
+- `service-api-ingress.yaml`: Ingress resource for external access.
 - `sqlserver-deployment.yaml`: Deploys SQL Server with 1 replica.
 - `sqlserver-pvc.yaml`: Persistent storage for SQL Server.
 - `sqlserver-secret.yaml`: Store SQL Server credentials.

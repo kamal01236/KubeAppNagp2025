@@ -4,9 +4,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
-using NagpServiceApi.Data;
+using ServiceApi.Data;
 
-namespace NagpServiceApi
+namespace ServiceApi
 {
     public class Startup
     {

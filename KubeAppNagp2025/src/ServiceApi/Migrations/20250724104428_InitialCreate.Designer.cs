@@ -4,14 +4,14 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using NagpServiceApi.Data;
+using ServiceApi.Data;
 
 #nullable disable
 
-namespace NagpServiceApi.Migrations
+namespace ServiceApi.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250724044918_InitialCreate")]
+    [Migration("20250724104428_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -24,7 +24,7 @@ namespace NagpServiceApi.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("NagpServiceApi.Models.User", b =>
+            modelBuilder.Entity("ServiceApi.Models.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()

@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using NagpServiceApi.Models;
+using ServiceApi.Models;
 
-namespace NagpServiceApi.Data
+namespace ServiceApi.Data
 {
     public class AppDbContext : DbContext
     {

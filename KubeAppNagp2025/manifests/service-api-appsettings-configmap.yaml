@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: service-api-appsettings-config
+data:
+  appsettings.json: |
+    {
+      "ConnectionStrings": {
+        "DefaultConnection": ""
+      },
+      "Logging": {
+        "LogLevel": {
+          "Default": "Information",
+          "Microsoft.AspNetCore": "Warning"
+        }
+      },
+      "AllowedHosts": "*"
+    }

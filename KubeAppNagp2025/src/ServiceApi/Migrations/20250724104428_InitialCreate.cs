@@ -4,7 +4,7 @@
 
 #pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
-namespace NagpServiceApi.Migrations
+namespace ServiceApi.Migrations
 {
     /// <inheritdoc />
     public partial class InitialCreate : Migration

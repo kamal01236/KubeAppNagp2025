@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: nagp-service-api
+  name: service-api
 spec:
   selector:
-    app: nagp-service-api
+    app: service-api
   ports:
     - port: 80
       targetPort: 80

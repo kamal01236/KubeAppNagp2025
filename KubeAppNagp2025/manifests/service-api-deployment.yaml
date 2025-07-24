@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nagp-service-api
+  name: service-api
 spec:
   replicas: 4
   selector:
     matchLabels:
-      app: nagp-service-api
+      app: service-api
   strategy:
     type: RollingUpdate
   template:
     metadata:
       labels:
-        app: nagp-service-api
+        app: service-api
     spec:
       containers:
-      - name: nagp-service-api
-        image: kamal01236/nagp-service-api:latest
+      - name: service-api
+        image: kamal01236/service-api:latest
         ports:
         - containerPort: 80
         env:
@@ -40,5 +40,16 @@ spec:
             secretKeyRef:
               name: sqlserver-secret
               key: SA_PASSWORD
+        # This environment variable will override the DefaultConnection in appsettings.json
+        # due to ASP.NET Core's configuration hierarchy.
         - name: ConnectionStrings__DefaultConnection
           value: "Server=$(SQL_SERVER);Database=$(SQL_DB);User Id=$(SQL_USER);Password=$(SQL_PASSWORD);TrustServerCertificate=True;"
+        volumeMounts:
+        - name: appsettings-volume
+          mountPath: "/app/appsettings.json" # Mount point inside the container
+          subPath: appsettings.json         # Specifies which key from the ConfigMap to mount as a file
+          readOnly: true                    # Recommended for configuration files
+      volumes:
+      - name: appsettings-volume
+        configMap:
+          name: service-api-appsettings-config # Reference the ConfigMap created above

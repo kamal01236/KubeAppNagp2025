@@ -4,49 +4,50 @@ This repository contains a sample .NET 8 Web API (Service Tier) and SQL Server (
 
 ## 🏗 Project Structure
 
-- `src/NagpServiceApi`: .NET 8 Web API connecting to SQL Server
+- `src/ServiceApi`: .NET 8 Web API connecting to SQL Server
 - `manifests/`: Kubernetes deployment files (Deployments, Services, Ingress, ConfigMap, Secrets, PVC)
-- `Dockerfile`: Build and publish .NET Web API Docker image (located in `src/NagpServiceApi`)
+- `Dockerfile`: Build and publish .NET Web API Docker image (located in `src/ServiceApi`)
 
 ## 🚀 Setup Instructions
 
 ### 1. Build and Push Docker Image
 ```bash
-cd src/NagpServiceApi
-docker build -t kamal01236/nagp-service-api .
-docker push kamal01236/nagp-service-api
+cd src/ServiceApi
+docker build -t kamal01236/service-api .
+docker push kamal01236/service-api
 ```
 
 ### 2. Deploy to Kubernetes
 ```bash
-kubectl apply -f manifests/sqlserver-configmap.yaml
-kubectl apply -f manifests/sqlserver-secret.yaml
-kubectl apply -f manifests/sqlserver-pvc.yaml
-kubectl apply -f manifests/sqlserver-deployment.yaml
-kubectl apply -f manifests/sqlserver-service.yaml
+kubectl apply -f sqlserver-configmap.yaml
+kubectl apply -f sqlserver-secret.yaml
+kubectl apply -f sqlserver-pvc.yaml
+kubectl apply -f sqlserver-deployment.yaml
+kubectl apply -f sqlserver-service.yaml
 
-kubectl apply -f manifests/nagp-service-api-configmap.yaml
-kubectl apply -f manifests/nagp-service-api-deployment.yaml
-kubectl apply -f manifests/nagp-service-api-service.yaml
-kubectl apply -f manifests/nagp-service-api-ingress.yaml
+kubectl apply -f service-api-configmap.yaml
+kubectl apply -f service-api-appsettings-config.yaml
+kubectl apply -f service-api-deployment.yaml
+kubectl apply -f service-api-service.yaml
+kubectl apply -f service-api-ingress.yaml
 ```
 
-> Ensure an Ingress controller is running and add `127.0.0.1 nagp-service-api.local` to your `/etc/hosts` file.
+> Ensure an Ingress controller is running and add `127.0.0.1 service-api.local` to your `/etc/hosts` file.
 
 ### 3. Migrate Database (Run Once)
 First, get the name of any Service API pod:
 ```bash
-kubectl get pods -l app=nagp-service-api
+kubectl get pods -l app=service-api
 ```
 Then, run the migration command on any one of the listed pods:
 ```bash
-kubectl exec -it <nagp-service-api-pod-name> -- dotnet ef database update
+kubectl exec -it <service-api-pod-name> -- dotnet ef database update
 ```
-Replace `<nagp-service-api-pod-name>` with the actual pod name from the previous command.
+Replace `<service-api-pod-name>` with the actual pod name from the previous command.
 
 ### 4. Test API
 ```bash
-curl http://nagp-service-api.local/api/users/getall
+curl http://service-api.local/api/users/getall
 ```
 
 ## ✅ Features
@@ -60,12 +61,12 @@ curl http://nagp-service-api.local/api/users/getall
 
 ## 📁 Key Manifests
 
-- `nagp-service-api-deployment.yaml`: Deploys 4 replicas of the API with rolling updates.
-- `nagp-service-api-configmap.yaml`: Provides non-sensitive configuration (connection string).
+- `service-api-deployment.yaml`: Deploys 4 replicas of the API with rolling updates.
+- `service-api-configmap.yaml`: Provides non-sensitive configuration (connection string).
 - `sqlserver-deployment.yaml`: Deploys SQL Server with 1 replica.
 - `sqlserver-pvc.yaml`: Persistent storage for SQL Server.
 - `sqlserver-secret.yaml`: (Optional) Store sensitive DB credentials.
-- `nagp-service-api-ingress.yaml`: Ingress resource for external access.
+- `service-api-ingress.yaml`: Ingress resource for external access.
 
 ---
 
