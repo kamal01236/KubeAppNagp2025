@@ -11,8 +11,8 @@ spec:
         command: ["/bin/sh", "-c"]
         args:
           - |
-            dotnet tool install --global dotnet-ef && \
-            export PATH="$PATH:/root/.dotnet/tools" && \
+            dotnet tool install --global dotnet-ef &&
+            export PATH="$PATH:/root/.dotnet/tools" &&
             git clone https://github.com/kamal01236/KubeAppNagp2025.git &&
             cd KubeAppNagp2025/KubeAppNagp2025/src/ServiceApi &&
             dotnet restore &&
