@@ -47,6 +47,8 @@ kubectl rollout status deployment service-api
 ```
 
 > Ensure an Ingress controller is running and add `127.0.0.1 service-api.local` to your `/etc/hosts` file.
+> OR Ensure `192.168.49.2 service-api.local` minikube ip add in wsl instance `/etc/hosts` file 
+> If running on minikube ensure enabled ingress addons `minikube addons enable ingress`
 
 ### 3. Migrate Database (Run Once) Apply the Job and Run:
 ```bash
@@ -58,8 +60,14 @@ kubectl delete job ef-migrator #After completion, you may clean up:
 ### 4. Test API
 ```bash
 curl http://service-api.local/api/users/getall
+kubectl exec -it service-api-84b8dc95d4-28l69 -- curl http://service-api.local/api/users/getall
 ```
-
+#Create debug pod
+```bash
+kubectl run debug-pod --image=ubuntu:latest --restart=Never --command -- sleep infinity
+kubectl get pod debug-pod
+kubectl exec -it debug-pod -- bash
+```
 ## ✅ Features
 - .NET 8 Web API with Entity Framework Core
 - Configurable connection string via ConfigMap (for dev/test; use Secret for production)

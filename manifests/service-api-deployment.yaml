@@ -18,7 +18,7 @@ spec:
       - name: service-api
         image: kamal01236/service-api:latest
         ports:
-        - containerPort: 80
+        - containerPort: 8080
         env:
         - name: SQL_SERVER
           valueFrom:
