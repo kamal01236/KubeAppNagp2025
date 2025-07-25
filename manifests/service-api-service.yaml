@@ -5,8 +5,9 @@ metadata:
 spec:
   selector:
     app: service-api
+  type: NodePort
   ports:
     - port: 80
       targetPort: 80
+      nodePort: 30080
       name: http
-  type: ClusterIP
