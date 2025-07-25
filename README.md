@@ -12,8 +12,10 @@ This repository contains a sample .NET 8 Web API (Service Tier) and SQL Server (
 
 ### 1. Build and Push Docker Image
 ```bash
-cd src/ServiceApi
-docker build -t kamal01236/service-api .
+#cd src/ServiceApi
+# Build ServiceApi from root, using its Dockerfile
+docker build -f src/ServiceApi/Dockerfile -t kamal01236/service-api:latest .
+#docker build -t kamal01236/service-api .
 docker push kamal01236/service-api
 ```
 
@@ -35,6 +37,9 @@ kubectl apply -f service-api-ingress.yaml
 
 kubectl get pods
 kubectl get pods --all-namespaces
+kubectl exec -it service-api-66864898d5-47t8s -- env | grep ConnectionStrings__DefaultConnection
+kubectl exec -it service-api-66864898d5-795ph  -- /bin/sh
+kubectl logs service-api-66864898d5-795ph
 ```
 
 > Ensure an Ingress controller is running and add `127.0.0.1 service-api.local` to your `/etc/hosts` file.
