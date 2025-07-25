@@ -12,9 +12,10 @@ This repository contains a sample .NET 8 Web API (Service Tier) and SQL Server (
 
 ### 1. Build and Push Docker Image
 ```bash
-#cd src/ServiceApi
 # Build ServiceApi from root, using its Dockerfile
-docker build -f src/ServiceApi/Dockerfile -t kamal01236/service-api:latest .
+cd src/ServiceApi
+#docker build -t kamal01236/service-api:latest .
+docker build --no-cache -t kamal01236/service-api:latest . # forces a clean rebuild from scratch (no cached layers)
 #docker build -t kamal01236/service-api .
 docker push kamal01236/service-api
 ```
@@ -23,23 +24,26 @@ docker push kamal01236/service-api
 ```bash
 cd ../../manifests
 
-
 kubectl apply -f sqlserver-configmap.yaml
 kubectl apply -f sqlserver-secret.yaml
 kubectl apply -f sqlserver-pvc.yaml
 kubectl apply -f sqlserver-deployment.yaml
 kubectl apply -f sqlserver-service.yaml
 
-kubectl apply -f service-api-appsettings-configmap.yaml
+#kubectl apply -f service-api-appsettings-configmap.yaml
 kubectl apply -f service-api-deployment.yaml
 kubectl apply -f service-api-service.yaml
 kubectl apply -f service-api-ingress.yaml
 
+#ignore below test instructions
 kubectl get pods
 kubectl get pods --all-namespaces
 kubectl exec -it service-api-66864898d5-47t8s -- env | grep ConnectionStrings__DefaultConnection
-kubectl exec -it service-api-66864898d5-795ph  -- /bin/sh
+kubectl exec -it sqlserver-8688567587-mrpm9  -- /bin/sh
 kubectl logs service-api-66864898d5-795ph
+kubectl rollout restart deployment service-api
+kubectl rollout status deployment service-api
+
 ```
 
 > Ensure an Ingress controller is running and add `127.0.0.1 service-api.local` to your `/etc/hosts` file.
