@@ -16,7 +16,8 @@ spec:
             git clone https://github.com/kamal01236/KubeAppNagp2025.git &&
             cd KubeAppNagp2025/src/ServiceApi &&
             dotnet restore &&
-            dotnet ef database update --connection "$ConnectionStrings__DefaultConnection"
+            CONNECTION_STRING="Server=$SQL_SERVER;Database=$SQL_DB;User Id=$SQL_USER;Password=$SQL_PASSWORD;TrustServerCertificate=True;" &&
+            dotnet ef database update --connection "$CONNECTION_STRING"
         env:
         - name: SQL_SERVER
           valueFrom:
