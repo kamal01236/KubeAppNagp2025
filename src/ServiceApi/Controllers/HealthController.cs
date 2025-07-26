@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
-[Route("health")]
+ [Route("api/[controller]")]
 public class HealthController : ControllerBase
 {
     [HttpGet("ready")]

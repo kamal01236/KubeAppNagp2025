@@ -14,38 +14,42 @@ This repository contains a sample .NET 8 Web API (Service Tier) and SQL Server (
 ```bash
 # Build ServiceApi from root, using its Dockerfile
 cd src/ServiceApi
-#docker build -t kamal01236/service-api:latest .
-docker build --no-cache -t kamal01236/service-api:latest . # forces a clean rebuild from scratch (no cached layers)
+docker build -t kamal01236/service-api:latest .
 docker push kamal01236/service-api
 ```
 
 ### 2. Deploy to Kubernetes
 ```bash
 cd ../../manifests
-
+# 1. Apply config and secret
 kubectl apply -f sqlserver-configmap.yaml
 kubectl apply -f sqlserver-secret.yaml
+
+# 2. Deploy SQL Server
 kubectl apply -f sqlserver-pvc.yaml
 kubectl apply -f sqlserver-deployment.yaml
 kubectl apply -f sqlserver-service.yaml
 
+# Wait for SQL pod to be ready
+kubectl get pods -l app=sqlserver -w
+
+# 3. Deploy API
 kubectl apply -f service-api-deployment.yaml
 kubectl apply -f service-api-service.yaml
 kubectl apply -f service-api-ingress.yaml
+
+# 4. Optional: Run EF migration job once
+kubectl apply -f ef-migrate-job.yaml
+kubectl logs job/ef-migrator #You can watch logs:
+kubectl delete job ef-migrator #After completion, you may clean up:
+
 ```
 
 > Ensure an Ingress controller is running and add `127.0.0.1 service-api.local` to your `/etc/hosts` file.
 > OR If using minikube then ensure `<minikube ip> service-api.local` minikube ip add in wsl instance `/etc/hosts` file 
 > If running on minikube ensure enabled ingress addons `minikube addons enable ingress`
 
-### 3. Migrate Database (Run Once) Apply the Job and Run:
-```bash
-kubectl apply -f ef-migrate-job.yaml
-kubectl logs job/ef-migrator #You can watch logs:
-kubectl delete job ef-migrator #After completion, you may clean up:
-```
-
-### 4. Test the API
+### 3. Test the API
 
 - curl http://service-api.local/api/users/getall  
   (From host machine after adding service-api.local to /etc/hosts)
@@ -66,7 +70,7 @@ Inside the busybox shell:
 
 - `kubectl get svc -n ingress-nginx`  
   (Get the ingress controller’s cluster IP)
-  
+
 ---
 
 ### 🧪 Supporting Debug Commands
@@ -94,6 +98,9 @@ Inside the busybox shell:
 
 - `kubectl rollout status deployment service-api`  
   (Watch rollout progress)
+- `kubectl get svc service-api`
+- `kubectl get deploy service-api`
+- `kubectl describe ingress service-api-ingress`
 
 ## ✅ Features
 - .NET 8 Web API with Entity Framework Core
