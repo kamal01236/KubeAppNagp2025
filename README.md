@@ -2,13 +2,13 @@
 
 This repository contains a sample .NET 8 Web API (Service Tier) and SQL Server (Database Tier) deployed using Kubernetes.
 
-## 🏗 Project Structure
+## Project Structure
 
-- `src/ServiceApi`: .NET 8 Web API connecting to SQL Server
-- `manifests/`: Kubernetes deployment files (Deployments, Services, Ingress, ConfigMap, Secrets, PVC)
-- `Dockerfile`: Build and publish .NET Web API Docker image (located in `src/ServiceApi`)
+- `src/ServiceApi`: .NET 8 Web API that connects to SQL Server
+- `manifests/`: All Kubernetes manifests (Deployments, Services, Ingress, ConfigMap, Secrets, PVC)
+- `Dockerfile`: Located in src/ServiceApi, builds and publishes the API image
 
-## 🚀 Setup Instructions
+## Setup Instructions
 
 ### 1. Build and Push Docker Image
 ```bash
@@ -16,7 +16,6 @@ This repository contains a sample .NET 8 Web API (Service Tier) and SQL Server (
 cd src/ServiceApi
 #docker build -t kamal01236/service-api:latest .
 docker build --no-cache -t kamal01236/service-api:latest . # forces a clean rebuild from scratch (no cached layers)
-#docker build -t kamal01236/service-api .
 docker push kamal01236/service-api
 ```
 
@@ -30,24 +29,13 @@ kubectl apply -f sqlserver-pvc.yaml
 kubectl apply -f sqlserver-deployment.yaml
 kubectl apply -f sqlserver-service.yaml
 
-#kubectl apply -f service-api-appsettings-configmap.yaml
 kubectl apply -f service-api-deployment.yaml
 kubectl apply -f service-api-service.yaml
 kubectl apply -f service-api-ingress.yaml
-
-#ignore below test instructions
-kubectl get pods
-kubectl get pods --all-namespaces
-kubectl exec -it service-api-66864898d5-47t8s -- env | grep ConnectionStrings__DefaultConnection
-kubectl exec -it sqlserver-8688567587-mrpm9  -- /bin/sh
-kubectl logs service-api-66864898d5-795ph
-kubectl rollout restart deployment service-api
-kubectl rollout status deployment service-api
-
 ```
 
 > Ensure an Ingress controller is running and add `127.0.0.1 service-api.local` to your `/etc/hosts` file.
-> OR Ensure `192.168.49.2 service-api.local` minikube ip add in wsl instance `/etc/hosts` file 
+> OR If using minikube then ensure `<minikube ip> service-api.local` minikube ip add in wsl instance `/etc/hosts` file 
 > If running on minikube ensure enabled ingress addons `minikube addons enable ingress`
 
 ### 3. Migrate Database (Run Once) Apply the Job and Run:
@@ -57,17 +45,56 @@ kubectl logs job/ef-migrator #You can watch logs:
 kubectl delete job ef-migrator #After completion, you may clean up:
 ```
 
-### 4. Test API
-```bash
-curl http://service-api.local/api/users/getall
-kubectl exec -it service-api-84b8dc95d4-28l69 -- curl http://service-api.local/api/users/getall
-```
-#Create debug pod
-```bash
-kubectl run debug-pod --image=ubuntu:latest --restart=Never --command -- sleep infinity
-kubectl get pod debug-pod
-kubectl exec -it debug-pod -- bash
-```
+### 4. Test the API
+
+- curl http://service-api.local/api/users/getall  
+  (From host machine after adding service-api.local to /etc/hosts)
+
+---
+
+### 🐛 Debug with Busybox Pod (Temporary Pod)
+
+- `kubectl run busybox --rm -it --image=busybox --restart=Never -- /bin/sh`  
+  (Launch a temporary busybox pod)
+
+Inside the busybox shell:
+- `wget -qO- http://service-api/api/users/getall`  
+  (Access the service via internal DNS)
+
+- `wget --header="Host: service-api.local" http://<INGRESS-CONTROLLER-CLUSTER-IP>/api/users/getall`  
+  (Simulate Ingress with custom Host header)
+
+- `kubectl get svc -n ingress-nginx`  
+  (Get the ingress controller’s cluster IP)
+  
+---
+
+### 🧪 Supporting Debug Commands
+
+- `kubectl get svc service-api` 
+  (Get service IP and port mappings)
+
+- `kubectl get pods`  
+  (List all pods in current namespace)
+
+- `kubectl get pods --all-namespaces`  
+  (List all pods in all namespaces)
+
+- `kubectl exec -it <api-pod-name> -- env | grep ConnectionStrings__DefaultConnection`  
+  (Verify environment variable injection)
+
+- `kubectl exec -it <sql-pod-name> -- /bin/sh`  
+  (Access the SQL Server container shell)
+
+- `kubectl logs <api-pod-name>`  
+  (View logs from API pod)
+
+- `kubectl rollout restart deployment service-api`  
+  (Manually restart the deployment)
+
+- `kubectl rollout status deployment service-api`  
+  (Watch rollout progress)
+
 ## ✅ Features
 - .NET 8 Web API with Entity Framework Core
 - Configurable connection string via ConfigMap (for dev/test; use Secret for production)
@@ -79,12 +106,15 @@ kubectl exec -it debug-pod -- bash
 
 ## 📁 Key Manifests
 
-- `service-api-deployment.yaml`: Deploys 4 replicas of the API with rolling updates.
-- `service-api-configmap.yaml`: Provides non-sensitive configuration (connection string).
-- `sqlserver-deployment.yaml`: Deploys SQL Server with 1 replica.
-- `sqlserver-pvc.yaml`: Persistent storage for SQL Server.
-- `sqlserver-secret.yaml`: (Optional) Store sensitive DB credentials.
-- `service-api-ingress.yaml`: Ingress resource for external access.
+- `ef-migrate-job.yaml`: One-time EF Core migration job to initialize or update the SQL Server schema.
+- `service-api-deployment.yaml`: Deploys 4 replicas of the .NET 8 Web API with environment-based configuration overrides and rolling update strategy.
+- `service-api-ingress.yaml`: Configures an Ingress rule to expose the API externally via `service-api.local`, using NGINX ingress controller.
+- `service-api-service.yaml`: NodePort service that exposes the service-api pods externally on port 30080 and internally on port 80 (mapped to container port 8080).
+- `sqlserver-configmap.yaml`: Stores non-sensitive SQL Server settings like host, database name, and username.
+- `sqlserver-deployment.yaml`: Runs a single SQL Server container configured to use a Persistent Volume Claim (PVC).
+- `sqlserver-pvc.yaml`: Defines 1Gi persistent volume for SQL Server data to ensure durability across pod restarts.
+- `sqlserver-secret.yaml`: Securely stores sensitive database credentials (e.g., SA password).
+- `sqlserver-service.yaml`: Exposes SQL Server internally within the cluster using ClusterIP on port 1433.
 
 ---
 
