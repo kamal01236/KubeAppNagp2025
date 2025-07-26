@@ -15,12 +15,32 @@ This repository contains a sample .NET 8 Web API (Service Tier) and SQL Server (
 # Build ServiceApi from root, using its Dockerfile
 cd src/ServiceApi
 docker build -t kamal01236/service-api:latest .
-docker push kamal01236/service-api
+docker push kamal01236/service-api:latest
 ```
 
 ### 2. Deploy to Kubernetes
 ```bash
 cd ../../manifests
+# Delete Ingress
+kubectl delete -f service-api-ingress.yaml
+
+# Delete API
+kubectl delete -f service-api-deployment.yaml
+kubectl delete -f service-api-service.yaml
+
+# Delete SQL Server
+kubectl delete -f sqlserver-deployment.yaml
+kubectl delete -f sqlserver-service.yaml
+kubectl delete -f sqlserver-pvc.yaml
+
+# Delete Configs
+kubectl delete -f sqlserver-configmap.yaml
+kubectl delete -f sqlserver-secret.yaml
+
+# Optional: Delete EF migration job if applied
+kubectl delete -f ef-migrate-job.yaml --ignore-not-found
+
+
 # 1. Apply config and secret
 kubectl apply -f sqlserver-configmap.yaml
 kubectl apply -f sqlserver-secret.yaml
@@ -67,7 +87,7 @@ Inside the busybox shell:
 
 - `wget --header="Host: service-api.local" http://<INGRESS-CONTROLLER-CLUSTER-IP>/api/users/getall`  
   (Simulate Ingress with custom Host header)
-
+- wget --header="Host: service-api.local" http://104.197.56.201/api/users/getall
 - `kubectl get svc -n ingress-nginx`  
   (Get the ingress controller’s cluster IP)
 
@@ -101,6 +121,22 @@ Inside the busybox shell:
 - `kubectl get svc service-api`
 - `kubectl get deploy service-api`
 - `kubectl describe ingress service-api-ingress`
+- gcloud compute firewall-rules create allow-nodeport --allow tcp:30080
+
+✅ Install Ingress Controller (if not already installed)
+If you're using NGINX Ingress (which is not installed by default in GKE):
+
+bash
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.10.0/deploy/static/provider/cloud/deploy.yaml
+
+This deploys the NGINX Ingress Controller on GCP with proper Service of type LoadBalancer.
+
+Verify it's running:
+
+bash
+kubectl get pods -n ingress-nginx
+kubectl get svc -n ingress-nginx
+
 
 ## ✅ Features
 - .NET 8 Web API with Entity Framework Core
