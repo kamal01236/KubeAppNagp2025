@@ -40,7 +40,19 @@ spec:
             secretKeyRef:
               name: sqlserver-secret
               key: SA_PASSWORD
-        # This environment variable will override the DefaultConnection in appsettings.json
-        # due to ASP.NET Core's configuration hierarchy.
         - name: ConnectionStrings__DefaultConnection
           value: "Server=$(SQL_SERVER);Database=$(SQL_DB);User Id=$(SQL_USER);Password=$(SQL_PASSWORD);TrustServerCertificate=True;"
+          
+        readinessProbe:
+          httpGet:
+            path: /health/ready
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 10
+
+        livenessProbe:
+          httpGet:
+            path: /health/live
+            port: 8080
+          initialDelaySeconds: 15
+          periodSeconds: 20
