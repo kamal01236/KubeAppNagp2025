@@ -46,11 +46,11 @@ spec:
           httpGet:
             path: /api/health/ready
             port: 8080
-          initialDelaySeconds: 5
+          initialDelaySeconds: 20
           periodSeconds: 10
         livenessProbe:
           httpGet:
             path: /api/health/live
             port: 8080
-          initialDelaySeconds: 15
+          initialDelaySeconds: 20
           periodSeconds: 20
