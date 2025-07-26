@@ -45,14 +45,14 @@ spec:
           
         readinessProbe:
           httpGet:
-            path: api/health/ready
+            path: /api/health/ready
             port: 8080
           initialDelaySeconds: 5
           periodSeconds: 10
 
         livenessProbe:
           httpGet:
-            path: api/health/live
+            path: /api/health/live
             port: 8080
           initialDelaySeconds: 15
           periodSeconds: 20
