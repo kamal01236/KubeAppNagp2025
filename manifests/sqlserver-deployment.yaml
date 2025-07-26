@@ -12,6 +12,8 @@ spec:
       labels:
         app: sqlserver
     spec:
+      securityContext:
+        fsGroup: 10001  # Group ID used by SQL Server (mssql user)
       containers:
       - name: sqlserver
         image: mcr.microsoft.com/mssql/server:2019-latest
