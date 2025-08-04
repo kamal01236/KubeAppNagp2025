@@ -45,8 +45,8 @@ kubectl get pods -l app=sqlserver -w
 
 # 3. Run migration job (create table + seed data)
 kubectl apply -f ef-migrate-job.yaml
-kubectl logs job/ef-migrator #You can watch logs:
-kubectl delete job ef-migrator #After completion, you may clean up:
+#kubectl logs job/ef-migrator #You can watch logs:
+#kubectl delete job ef-migrator #After completion, you may clean up:
 
 # 4. Deploy API
 kubectl apply -f service-api-deployment.yaml
