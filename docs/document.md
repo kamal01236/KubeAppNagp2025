@@ -67,21 +67,24 @@ This project implements a multi-tier architecture on Kubernetes, consisting of:
 
 ## 📂 Repository Contents
 
+📂 KubeAppNagp2025
 ├── manifests/
-│ ├── ef-migrate-job.yaml
-│ ├── service-api-deployment.yaml
-│ ├── service-api-service.yaml
-│ ├── service-api-ingress.yaml
-│ ├── sqlserver-deployment.yaml
-│ ├── sqlserver-service.yaml
-│ ├── sqlserver-configmap.yaml
-│ ├── sqlserver-secret.yaml
-│ └── sqlserver-pvc.yaml
-├── src/ServiceApi
-│   ├── Dockerfile
+│   ├── ef-migrate-job.yaml
+│   ├── service-api-deployment.yaml
+│   ├── service-api-service.yaml
+│   ├── service-api-ingress.yaml
+│   ├── sqlserver-deployment.yaml
+│   ├── sqlserver-service.yaml
+│   ├── sqlserver-configmap.yaml
+│   ├── sqlserver-secret.yaml
+│   └── sqlserver-pvc.yaml
+├── src/
+│   └── ServiceApi/
+│       └── Dockerfile
+├── docs/
+│   └── ServiceApi/
+│       └── document.md   <-- (this file)
 ├── README.md
-└── docs/ServiceApi
-│   ├── document.md <-- (this file)
 
 ---
 
