@@ -6,7 +6,7 @@ This repository contains a sample .NET 8 Web API (Service Tier) and SQL Server (
 - 🐙 GitHub Repository: [https://github.com/kamal01236/KubeAppNagp2025]
 - 📦 Docker Images:
 - Service API: `docker.io/kamal01236/service-api`
-- 🌐 API URL: http://<your-domain>/api/get
+- 🌐 API URL: http://34.70.120.195/api/users/getall
 
 ## Project Structure
 
