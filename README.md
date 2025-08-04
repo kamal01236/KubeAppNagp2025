@@ -75,7 +75,7 @@ kubectl apply -f service-api-ingress.yaml
 
 - `ef-migrate-job.yaml`: One-time EF Core migration job to initialize or update the SQL Server schema.
 - `service-api-deployment.yaml`: Deploys 4 replicas of the .NET 8 Web API with environment-based configuration overrides and rolling update strategy.
-- `service-api-ingress.yaml`: Configures an Ingress rule to expose the API externally via `service-api.local`, using NGINX ingress controller.
+- `service-api-ingress.yaml`: Configures an Ingress rule to expose the API externally using NGINX ingress controller.
 - `service-api-service.yaml`: NodePort service that exposes the service-api pods externally on port 30080 and internally on port 80 (mapped to container port 8080).
 - `sqlserver-configmap.yaml`: Stores non-sensitive SQL Server settings like host, database name, and username.
 - `sqlserver-deployment.yaml`: Runs a single SQL Server container configured to use a Persistent Volume Claim (PVC).
