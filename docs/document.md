@@ -53,7 +53,7 @@ This project implements a multi-tier architecture on Kubernetes, consisting of:
   - Developed using .NET 8
   - Connects to SQL Server using Entity Framework Core
   - Read configuration via `ConfigMap` (host, DB name)
-  - Read credentials via `Secret` (username, password)
+  - Read credentials via `Secret` (sql user password)
   - Deployed as 4 replicas with rolling updates enabled
   - Exposed via Ingress
 
@@ -121,9 +121,9 @@ This project implements a multi-tier architecture on Kubernetes, consisting of:
 
 ## 🔗 Links
 
-- **Code Repository**: [GitHub Repository Link Here]
-- **Docker Hub Image**: [Docker Hub URL Here]
-- **Service URL**: http://service-api.local/api/records
+- **Code Repository**: [https://github.com/kamal01236/KubeAppNagp2025]
+- **Docker Hub Image**: [docker.io/kamal01236/service-api]
+- **Service URL**: http://104.197.159.89/api/users/getall
 
 ---
 
@@ -141,7 +141,7 @@ This project implements a multi-tier architecture on Kubernetes, consisting of:
 
 ```bash
 # Access the API
-curl http://service-api.local/api/users/getall
+curl http://104.197.159.89/api/users/getall
 
 # Delete API pod
 kubectl delete pod <api-pod-name>

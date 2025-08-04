@@ -4,9 +4,8 @@ This repository contains a sample .NET 8 Web API (Service Tier) and SQL Server (
 
 ## 🔗 Links
 - 🐙 GitHub Repository: [https://github.com/kamal01236/KubeAppNagp2025]
-- 📦 Docker Images:
-- Service API: `docker.io/kamal01236/service-api`
-- 🌐 API URL: http://34.70.120.195/api/users/getall
+- 📦 Docker Images: Service API: `docker.io/kamal01236/service-api`
+- 🌐 API URL: http://104.197.159.89/api/users/getall
 
 ## Project Structure
 
@@ -59,7 +58,7 @@ kubectl apply -f service-api-ingress.yaml
 
 ### 3. Test the API
 
-- curl http://34.70.120.195/api/users/getall  
+- curl http://104.197.159.89/api/users/getall  
 
 ---
 
