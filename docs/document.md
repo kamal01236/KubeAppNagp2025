@@ -67,7 +67,7 @@ This project implements a multi-tier architecture on Kubernetes, consisting of:
 
 ## 📂 Repository Contents
 
-📂 KubeAppNagp2025
+```bash
 ├── manifests/
 │   ├── ef-migrate-job.yaml
 │   ├── service-api-deployment.yaml
@@ -85,7 +85,7 @@ This project implements a multi-tier architecture on Kubernetes, consisting of:
 │   └── ServiceApi/
 │       └── document.md   <-- (this file)
 ├── README.md
-
+```
 ---
 
 ## 💬 Justification of Choices
