@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: service-api
+  namespace: nagp-kubeapp
 spec:
   replicas: 4
   selector:

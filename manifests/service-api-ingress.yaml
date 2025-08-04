@@ -2,6 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: service-api-ingress
+  namespace: nagp-kubeapp
   annotations:
     nginx.ingress.kubernetes.io/use-regex: "true"
 spec:
