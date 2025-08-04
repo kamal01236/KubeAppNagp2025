@@ -59,7 +59,7 @@ kubectl apply -f service-api-ingress.yaml
 
 ### 3. Test the API
 
-- curl http://service-api.local/api/users/getall  
+- curl http://34.70.120.195/api/users/getall  
 
 ---
 
