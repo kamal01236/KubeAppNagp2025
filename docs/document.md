@@ -123,7 +123,7 @@ This project implements a multi-tier architecture on Kubernetes, consisting of:
 
 - **Code Repository**: [https://github.com/kamal01236/KubeAppNagp2025]
 - **Docker Hub Image**: [docker.io/kamal01236/service-api]
-- **Service URL**: http://104.197.159.89/api/users/getall
+- **Service URL**: http://35.239.60.4/api/users/getall
 
 ---
 
@@ -141,7 +141,7 @@ This project implements a multi-tier architecture on Kubernetes, consisting of:
 
 ```bash
 # Access the API
-curl http://104.197.159.89/api/users/getall
+curl http://35.239.60.4/api/users/getall
 
 # Delete API pod
 kubectl delete pod <api-pod-name>

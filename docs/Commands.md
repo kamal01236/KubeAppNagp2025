@@ -77,7 +77,7 @@ Inside the busybox shell:
 
 - `wget --header="Host: service-api.local" http://<INGRESS-CONTROLLER-CLUSTER-IP>/api/users/getall`  
   (Simulate Ingress with custom Host header)
-- wget --header="Host: service-api.local" http://104.197.159.89/api/users/getall  
+- wget --header="Host: service-api.local" http://35.239.60.4/api/users/getall  
 - `kubectl get svc -n ingress-nginx`  
   (Get the ingress controller’s cluster IP)
 
